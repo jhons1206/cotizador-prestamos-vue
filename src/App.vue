@@ -4,17 +4,20 @@ import Header from './components/Header.vue';
 
 const cantidad = ref(0);
 
-const state = reactive({
-    cantidad: 0,
-});
+// const state = reactive({
+//     cantidad: 0,
+// });
 
+// Manejo del state con ref
 function handleChange(e) {
-    cantidad.value = e.target.value;
+    cantidad.value = +e.target.value;
 }
 
-console.log(cantidad.value);
+// State con reactive
+// function handleChange(e) {
+//     state.cantidad = +e.target.value;
+// }
 
-console.log(state.cantidad);
 </script>
 
 <template>
@@ -23,6 +26,10 @@ console.log(state.cantidad);
 
         <div class="my-5">
             <input type="range" class="w-full bg-gray-200 accent-lime-500 hover:accent-lime-600" @input="handleChange" />
+
+            <!-- {{state.cantidad}} -->
+            <p>$ {{cantidad}}</p>
+            <p v-text="`$ ${cantidad}`"></p>
         </div>
     </div>
 </template>
