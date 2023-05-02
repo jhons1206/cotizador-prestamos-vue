@@ -2,7 +2,10 @@
 import { ref, reactive } from 'vue';
 import Header from './components/Header.vue';
 
-const cantidad = ref(0);
+const cantidad = ref(10000);
+const MIN = 0;
+const MAX = 20000;
+const STEP = 100;
 
 // const state = reactive({
 //     cantidad: 0,
@@ -25,11 +28,10 @@ function handleChange(e) {
         <Header />
 
         <div class="my-5">
-            <input type="range" class="w-full bg-gray-200 accent-lime-500 hover:accent-lime-600" @input="handleChange" />
+            <input type="range" class="w-full bg-gray-200 accent-lime-500 hover:accent-lime-600" min="0" max="20000" step="100" value="10000" @input="handleChange" />
 
             <!-- {{state.cantidad}} -->
             <p>$ {{cantidad}}</p>
-            <p v-text="`$ ${cantidad}`"></p>
         </div>
     </div>
 </template>
