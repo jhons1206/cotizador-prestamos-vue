@@ -1,25 +1,30 @@
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, computed } from 'vue';
 import Header from './components/Header.vue';
 
 const cantidad = ref(10000);
-const MIN = 0;
+const MIN = 2000;
 const MAX = 20000;
 const STEP = 100;
 
-// const state = reactive({
-//     cantidad: 0,
-// });
+const formatearDinero = computed(() => {
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    });
 
-// Manejo del state con ref
-function handleChange(e) {
-    cantidad.value = +e.target.value;
+    return formatter.format(cantidad.value);
+});
+
+const handleChangeDecremento = () => {
+    const valor = cantidad.value - STEP;
+    if(valor < MIN) {
+        alert('Cantidad no válida');
+        return;
+    }
+
+    cantidad.value = valor;
 }
-
-// State con reactive
-// function handleChange(e) {
-//     state.cantidad = +e.target.value;
-// }
 
 </script>
 
@@ -27,11 +32,17 @@ function handleChange(e) {
     <div class="my-20 max-w-lg mx-auto bg-white shadow p-10">
         <Header />
 
+        <div class="flex justify-between mt-10">
+            <button class="h-10 w-10 flex items-center justify-center font-bold bg-lime-500 rounded-full hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-lime-500 text-white text-2xl" @click="handleChangeDecremento">-</button>
+
+            <button class="h-10 w-10 flex items-center justify-center font-bold bg-lime-500 rounded-full hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-lime-500 text-white text-2xl">+</button>
+        </div>
+
         <div class="my-5">
-            <input type="range" class="w-full bg-gray-200 accent-lime-500 hover:accent-lime-600" min="0" max="20000" step="100" value="10000" @input="handleChange" />
+            <input type="range" class="w-full bg-gray-200 accent-lime-500 hover:accent-lime-600" :min="MIN" :max="MAX" :step="STEP" v-model.number="cantidad" />
 
             <!-- {{state.cantidad}} -->
-            <p>$ {{cantidad}}</p>
+            <p class="text-center my-10 text-5xl font-extrabold text-indigo-600">{{formatearDinero}}</p>
         </div>
     </div>
 </template>
